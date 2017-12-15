@@ -1,0 +1,32 @@
+{
+  "name": "news-scraper",
+  "version": "1.0.0",
+  "description": "web app that scrapes a web site for articles and allows users to comment",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexWetzel/News-Scraper.git"
+  },
+  "author": "Alex Wetzel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexWetzel/News-Scraper/issues"
+  },
+  "homepage": "https://github.com/AlexWetzel/News-Scraper#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.13.7",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
+}
