@@ -20,6 +20,11 @@ var request = require("request");
 
 var db = require("./models");
 
+mongoose.Promise = Promise;
+mongoose.connect("mongodb://localhost/RuneScrape", {
+  useMongoClient: true
+});
+
 //Dependencies
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -54,10 +59,7 @@ app.listen(PORT, function() {
 
 
 
-// mongoose.Promise = Promise;
-// mongoose.connect("mongodb://localhost/RuneScrape", {
-//   useMongoClient: true
-// });
+
 
 // // First, tell the console what server.js is doing
 // console.log("\n==================================\n" +
