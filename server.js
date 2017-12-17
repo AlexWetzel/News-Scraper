@@ -1,36 +1,18 @@
-/* Require:
-/ 	-express
-/		client-server connection
-/	-express-handlebars
-/		page rendering
-/ 	-mongoose
-/		orm
-/	-body-parser
-/		request/response parsing
-/	-cheerio
-/		For grabbing page elements
-/	-request
-/		For grabbing web pages
-*/
+//Dependencies
+var express = require("express");
+var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-// Parses our HTML and helps us find elements
 var cheerio = require("cheerio");
-// Makes HTTP request for HTML page
 var request = require("request");
 
 var db = require("./models");
 
+//Mongoose connection
 mongoose.Promise = Promise;
-
 var URL = process.env.MONGODB_URI || "mongodb://localhost/RuneScrape";
-
 mongoose.connect(URL, {
   useMongoClient: true
 });
-
-//Dependencies
-var express = require("express");
-var bodyParser = require("body-parser");
 
 //Use the environment port or 3000
 var PORT = process.env.PORT || 3000;
@@ -49,7 +31,7 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-//Require routes
+//Require routes, pass in request and cheerio
 var Routes = require("./routes/routes.js")(request, cheerio);
 
 app.use("/", Routes);

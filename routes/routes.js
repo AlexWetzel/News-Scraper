@@ -1,135 +1,123 @@
+// Dependencies
 var express = require("express");
 var router = express.Router();
 var db = require("../models");
 
-
+// Routes
 module.exports = function (request, cheerio) {
+	// Home page
+	router.get("/", function(req, res) {
+		// Get all articles
+		// Note: currently handlebars parses the saved articles
+		db.Article.find()
+			.then(function(data) {
+				// Store articles in an object
+				var articlesObj = {
+					articles: data
+				}
+				// Render the home page with the articles
 
-
-
-router.get("/", function(req, res) {
-
-	db.Article.find()
-		.then(function(data) {
-			// console.log(data)
-
-			var articlesObj = {
-				articles: data
-			}
-
-			res.render("index", articlesObj);
-		});
-});
-
-router.get("/myarticles", function(req, res) {
-
-	db.Article.find()
-		.populate("note")
-		.then(function(data) {
-			console.log("request data:", data[0].note)
-
-			var articlesObj = {
-				articles: data
-			}
-
-			res.render("myArticles", articlesObj);
-		});
-});
-
-router.get("/scrape", function(req, res) {
-
-	var count = 0
-	// First, tell the console what server.js is doing
-	console.log("\n==================================\n" +
-	            "Welcome to RuneScrape!\n" +
-	            "Attempting to scrape atricles from the RuneScape official site...\n");
-
-	// Making a request for reddit's "webdev" board. The page's HTML is passed as the callback's third argument
-	request("http://services.runescape.com/m=news/a=13/", function(error, response, html) {
-		if (error) throw error;
-
-		// console.log(html)
-	  // Load the HTML into cheerio and save it to a variable
-	  // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-	  var $ = cheerio.load(html);
-
-	  // With cheerio, find each p-tag with the "title" class
-	  // (i: iterator. element: the current element)
-
-
-	  $("#newsContent").find("article").each(function(i, element) {
-	    // Save the text of the element in a "title" variable
-	    var title = $(element).find("h4").children().text().trim();
-
-	    // In the currently selected element, look at its child elements (i.e., its a-tags),
-	    // then save the values for any "href" attributes that the child elements may have
-	    var link = $(element).find("p").children().attr("href");
-
-	    var summary = $(element).find("p").children().remove(".readMore").end().text().trim();
-
-	    var article = {
-	    	title: title,
-	    	summary: summary,
-	    	link: link
-	    }
-
-	    console.log(article);
-	 
-	    db.Article.findOne({title: article.title}).then(function(foundArticle) {
-	    	console.log(foundArticle)
-	    	if (foundArticle) {
-	    		console.log("article found");
-	    		console.log(foundArticle);
-	    		return
-	    	}
-	    	else {
-	    		db.Article.create(article).then(function(newArticle) {
-	    			// console.log(newArticle)
-	    			count++;
-			    }).catch(function(err){
-			    	console.log(err);
-			    });
-	    	}
-	    });
-
-	  });
-	  console.log("Scraping complete");
-	  console.log(count)
-	  res.json({count: count});
+				res.render("index", articlesObj);
+			});
 	});
-});
+	// Saved articles page
+	router.get("/myarticles", function(req, res) {
+		// Find all articles
+		// Note: currently handlebars parses the saved articles
+		db.Article.find()
+			.populate("note")
+			.then(function(data) {
+				console.log("request data:", data[0].note)
 
-router.put("/save", function(req, res) {
+				var articlesObj = {
+					articles: data
+				}
+				//Render the "myarticles" page with saved articles
+				res.render("myArticles", articlesObj);
+			});
+	});
+	// Route to handle scrape request
+	router.get("/scrape", function(req, res) {
+		// Counts the new articles. Currently unused
+		var count = 0
+	
+		console.log("\n==================================\n" +
+		            "Welcome to RuneScrape!\n" +
+		            "Attempting to scrape atricles from the RuneScape official site...\n");
 
-	var id = req.body.id;
+		// Request to grab the Runescape news page
+		request("http://services.runescape.com/m=news/a=13/", function(error, response, html) {
+			if (error) throw error;
 
-	console.log(id);
+		  // Load the HTML into cheerio and save it to a variable
+		  var $ = cheerio.load(html);
 
-	db.Article.findByIdAndUpdate(id, {isSaved: true}).then(function(dbChange) {
-		res.send("Article Saved")
-	}).catch(function(err) {
-		console.log(err);
+		  // Find each article in the "newsContent" div and parse their contents
+		  $("#newsContent").find("article").each(function(i, element) {
+		    // Article title
+		    var title = $(element).find("h4").children().text().trim();
+		    // Article link
+		    var link = $(element).find("p").children().attr("href");
+		    // Article summary
+		    var summary = $(element).find("p").children().remove(".readMore").end().text().trim();
+
+		    // Store the data in an object
+		    var article = {
+		    	title: title,
+		    	summary: summary,
+		    	link: link
+		    }
+		 	
+		 	// Try to find the article in the database
+		    db.Article.findOne({title: article.title}).then(function(foundArticle) {
+		    	// If the article is found, do nothing
+		    	if (foundArticle) {
+		    		console.log("article found");
+		    		console.log(foundArticle);
+		    		return
+		    	}
+		    	// If no article is found, add the scraped article to the database
+		    	else {
+		    		db.Article.create(article).then(function(newArticle) {
+
+		    			count++;
+				    }).catch(function(err){
+				    	console.log(err);
+				    });
+		    	}
+		    });
+
+		  });
+		  console.log("Scraping complete");
+		  console.log(count)
+		  // Send number of new articles back once the process is complete
+		  res.json({count: count});
+		});
+	});
+	// Save article route
+	router.put("/save", function(req, res) {
+		//Get the article id from the body
+		var id = req.body.id;
+		//Update the value of "isSaved" to true for the selected article
+		db.Article.findByIdAndUpdate(id, {isSaved: true}).then(function(dbChange) {
+			res.send("Article Saved")
+		}).catch(function(err) {
+			console.log(err);
+		});
+
+	});
+	// Post new note route
+	router.post("/note", function(req, res) {
+		// Create the note in the database
+		db.Note.create({body: req.body.note}).then(function(newNote){
+			// Find the article with the request id, and push the id of the new note
+			return db.Article.findOneAndUpdate({ _id: req.body.id}, {$push: {note: newNote._id}}, {new: true});
+		}).then(function(articleChange) {
+			res.send("Note added");
+		}).catch(function(err) {
+			res.json(err);
+		})
 	});
 
-});
-
-router.post("/note", function(req, res) {
-
-	console.log(req.body)
-	db.Note.create({body: req.body.note})
-
-	.then(function(newNote){
-		return db.Article.findOneAndUpdate({ _id: req.body.id}, {$push: {note: newNote._id}}, {new: true});
-	}).then(function(articleChange) {
-		// console.log("Update:", articleChange);
-		res.send("Note added");
-	}).catch(function(err) {
-		res.json(err);
-	})
-});
-
-return router;
-
+	return router;
 };
-
-// module.exports = router;
