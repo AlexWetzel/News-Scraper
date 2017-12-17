@@ -1,27 +1,33 @@
-<div class="blue-grey darken-3">
-        <div class="container center">
-          <br>
-          <h1 class="header center white-text"><bold class="yellow-text text-darken-2">Rune</bold>Scrape</h1>
-          <h4 class="center blue-grey-text text-lighten-4">The RuneScape news scraping site</h4>
-          <br>
-          <button class="waves-effect waves-light btn center amber accent-4">Scrape</button>
+  <div class="progress hide" style="margin: 0px">
+      <div class="indeterminate" ></div>
+  </div>
 
-          <br>
-          <br>
+<div class="blue-grey darken-3">
+  <div class="container center">
+    <br>
+    <h1 class="header center white-text"><bold class="yellow-text text-darken-2">Rune</bold>Scrape</h1>
+    <h4 class="center blue-grey-text text-lighten-4">The RuneScape news scraping site</h4>
+    <br>
+    <button id="scraper" class="waves-effect waves-light btn center amber accent-4">Scrape</button>
+
+    <br>
+    <br>
+  </div>
+</div>
+
+<div id="cards" class="container">
+
+  {{#each articles}}
+    {{#unless this.isSaved}}
+      <div class="card blue-grey darken-2 z-depth-3">
+        <div class="card-content white-text">
+          <span class="card-title">{{this.title}}</span>
+          <p>{{this.summary}}</p>
+        </div>
+        <div class="card-action">
+          <button id="save"  data-id="{{_id}}" class="waves-effect waves-light btn center teal lighten-2">Save This Article</button>
         </div>
       </div>
-
-      <div id="cards" class="container">
-
-        {{#each articles}}
-          <div class="card blue-grey darken-2 z-depth-3">
-            <div class="card-content white-text">
-              <span class="card-title">{{this.title}}</span>
-              <p>{{this.summary}}</p>
-            </div>
-            <div class="card-action">
-              <a class="waves-effect waves-light btn center teal lighten-2" href="#">Save This Article</a>
-            </div>
-          </div>
-        {{/each}}
-      </div>
+    {{/unless}}
+  {{/each}}
+</div>
