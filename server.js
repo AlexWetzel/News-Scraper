@@ -22,7 +22,7 @@ var db = require("./models");
 
 mongoose.Promise = Promise;
 
-var URL = "mongodb://heroku_7rxhz8xg:omp8f2mv5ho8veovujeugdu01s@ds159866.mlab.com:59866/heroku_7rxhz8xg" || "mongodb://localhost/RuneScrape";
+var URL = process.env.MONGODB_URI || "mongodb://localhost/RuneScrape";
 
 mongoose.connect(URL, {
   useMongoClient: true
