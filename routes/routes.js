@@ -121,7 +121,8 @@ router.post("/note", function(req, res) {
 	.then(function(newNote){
 		return db.Article.findOneAndUpdate({ _id: req.body.id}, {$push: {note: newNote._id}}, {new: true});
 	}).then(function(articleChange) {
-		console.log("Update:", articleChange);
+		// console.log("Update:", articleChange);
+		res.send("Note added");
 	}).catch(function(err) {
 		res.json(err);
 	})

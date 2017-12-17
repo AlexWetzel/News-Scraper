@@ -57,6 +57,9 @@ $(document).on("click", "#addNote", function(event) {
 		if (response) {
 			console.log(response);
 			location.reload();
+			
+			// var noteItem = $("li").text("This note")
+			// $("#notes").append()
 		} else {
 			console.log("Nothing interesting happens...")
 		}

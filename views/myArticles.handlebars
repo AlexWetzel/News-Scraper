@@ -10,7 +10,7 @@
 
 	      <div class="card-content notes white-text">
 	      <hr>
-	      	   	<ul>
+	      	   	<ul id="notes">
 		      		{{#each this.note}}
 		      			<li>{{this.body}}</li>
 		      		{{/each}}
@@ -20,7 +20,7 @@
 	      <div>
 
 	      <div class="card-action">
-	        <button id="save"  data-id="{{_id}}" class="waves-effect waves-light btn center teal lighten-2">Save This Article</button>
+	        <button id="save"  data-id="{{_id}}" class="waves-effect waves-light btn center teal lighten-2">Button</button>
 	      </div>
 	    </div>
 	{{/if}}
