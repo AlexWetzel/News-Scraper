@@ -7,7 +7,7 @@ $(document).on("click", "#scraper", function(event) {
 	//Send a request to the server to scrape articles
 	$.ajax("/scrape", {type: "GET"}).then(function(response){
 		console.log(response);
-		location.reload();				
+		location.reload();			
 	});
 });
 

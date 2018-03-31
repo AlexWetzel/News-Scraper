@@ -38,6 +38,7 @@ module.exports = function (request, cheerio) {
 	});
 	// Route to handle scrape request
 	router.get("/scrape", function(req, res) {
+		console.log("This is working");
 		// Counts the new articles. Currently unused
 		var count = 0
 	
@@ -46,7 +47,7 @@ module.exports = function (request, cheerio) {
 		            "Attempting to scrape atricles from the RuneScape official site...\n");
 
 		// Request to grab the Runescape news page
-		request("http://services.runescape.com/m=news/a=13/", function(error, response, html) {
+		request("http://services.runescape.com/m=news/", function(error, response, html) {
 			if (error) throw error;
 
 		  // Load the HTML into cheerio and save it to a variable
