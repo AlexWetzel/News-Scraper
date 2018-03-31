@@ -1,21 +1,46 @@
 <div id="cards" class="container">
 
+   <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Add a comment</h4>
+
+      <form id="note-form">
+	      <div class="input-field col s12">
+	        <textarea id="note-field" class="materialize-textarea"></textarea>
+	        <label for="textarea1">Textarea</label>
+	      </div>
+	    </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" id="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+    </div>
+  </div>
+
   {{#each articles}}
   	{{#if this.isSaved}}
 	    <div class="card blue-grey darken-2 z-depth-3">
 	      <div class="card-content white-text">
 	        <span class="card-title">{{this.title}}</span>
 	        <p>{{this.summary}}</p>
+	        <br>
+	        <hr>
 	      </div>
 
 	      <div class="card-content notes white-text">
-	      <hr>
-	      	   	<ul id="notes">
-		      		{{#each this.note}}
-		      			<li>{{this.body}}</li>
-		      		{{/each}}
-		      	</ul>
-	      	<button id="addNote"  data-id="{{_id}}" class="waves-effect waves-light btn center teal lighten-2">Note</button>
+
+	      	<ul id="notes">
+		      	{{#each this.note}}
+		      		<li>-{{this.body}}</li>
+		      	{{/each}}
+		      </ul>
+
+		       <a data-id={{this._id}} class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+
+
+
+
 
 	      </div>
 

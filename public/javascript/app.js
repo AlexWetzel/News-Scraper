@@ -1,5 +1,15 @@
+var id;
+
+
+$(document).ready(function(){
+	// the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+	$('.modal').modal();
+});
+
+
 //Event listeners
 //========================
+
 $(document).on("click", "#scraper", function(event) {
 	event.preventDefault();
 	//Show the loading bar until the page refreshes
@@ -30,17 +40,27 @@ $(document).on("click", "#save", function(event) {
 	});
 });
 
-$(document).on("click", "#addNote", function(event) {
+$(document).on("click", ".modal-trigger", function(event) {
 	event.preventDefault();
-	//TODO: Get text from a form in the saved article
-	//Store the data-id of the element
-	var id = $(this).data("id");
+
+	id = $(this).data("id");
+
+	console.log("Article id:", id);
+});
+
+$(document).on("click", "#submit", function(event) {
+	event.preventDefault();
 	//Post request to add a note
+
+	var note = $("#note-field").val();
+
+	console.log("Article id:", id);
+	console.log("Note:", note);
+	
 	$.ajax("/note", {
 		type: "POST",
 		data: {
-			//Placeholder note
-			note: "This is a note",
+			note: note,
 			id: id
 		}
 	}).then(function(response){
@@ -52,4 +72,9 @@ $(document).on("click", "#addNote", function(event) {
 		}
 		
 	})
+});
+
+$(document).on("click", ".modal-close", function(evet) {
+	$("#note-form").trigger('reset');
+	$("#note-form").trigger('autoresize');
 });
