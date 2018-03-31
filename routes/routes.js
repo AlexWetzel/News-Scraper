@@ -10,6 +10,7 @@ module.exports = function (request, cheerio) {
 		// Get all articles
 		// Note: currently handlebars parses the saved articles
 		db.Article.find()
+			.sort({ _id: -1 })
 			.then(function(data) {
 				// Store articles in an object
 				var articlesObj = {
