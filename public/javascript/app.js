@@ -26,13 +26,32 @@ $(document).on("click", "#save", function(event) {
 	//Store the data-id of the element
 	var id = $(this).data("id");
 	//Request to update the data entry
-	$.ajax("/save", {
+	$.ajax("/saveArticle", {
 		type: "PUT",
 		data: {id: id}
 	}).then(function(response) {
 		if (response) {
 			console.log(response);
 			//Reload if the article is saved
+			location.reload();
+		} else {
+			console.log("Nothing interesting happens...")
+		}
+	});
+});
+
+$(document).on("click", "#remove", function(event) {
+	event.preventDefault();
+	//Store the data-id of the element
+	var id = $(this).data("id");
+	//Request to update the data entry
+	$.ajax("/removeArticle", {
+		type: "PUT",
+		data: {id: id}
+	}).then(function(response) {
+		if (response) {
+			console.log(response);
+			//Reload if the article is unsaved
 			location.reload();
 		} else {
 			console.log("Nothing interesting happens...")

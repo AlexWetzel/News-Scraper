@@ -25,9 +25,7 @@
 	        <p>{{this.summary}}</p>
 	        <br>
 	        <hr>
-	      </div>
 
-	      <div class="card-content notes white-text">
 
 	      	<ul id="notes">
 		      	{{#each this.note}}
@@ -35,7 +33,7 @@
 		      	{{/each}}
 		      </ul>
 
-		       <a data-id={{this._id}} class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+		       <a data-id={{this._id}} class="waves-effect waves-light btn modal-trigger" href="#modal1">Add a note</a>
 
 
 
@@ -45,7 +43,7 @@
 	      </div>
 
 	      <div class="card-action">
-	        <button id="save"  data-id="{{_id}}" class="waves-effect waves-light btn center red lighten-2">Delete</button>
+	        <button id="remove"  data-id="{{_id}}" class="waves-effect waves-light btn center red lighten-2">Remove</button>
 	      </div>
 	    </div>
 	{{/if}}

@@ -97,17 +97,31 @@ module.exports = function (request, cheerio) {
 		});
 	});
 	// Save article route
-	router.put("/save", function(req, res) {
+	router.put("/saveArticle", function(req, res) {
 		//Get the article id from the body
 		var id = req.body.id;
 		//Update the value of "isSaved" to true for the selected article
 		db.Article.findByIdAndUpdate(id, {isSaved: true}).then(function(dbChange) {
-			res.send("Article Saved")
+			res.send("Article Saved");
 		}).catch(function(err) {
 			console.log(err);
 		});
 
 	});
+
+	router.put("/removeArticle", function(req, res) {
+		//Get the article id from the body
+		var id = req.body.id;
+		//Update the value of "isSaved" to false for the selected article
+		db.Article.findByIdAndUpdate(id, {isSaved: false}).then(function(dbChange) {
+			res.send("Article Removed");
+		}).catch(function(err) {
+			console.log(err);
+		});
+
+	});
+
+
 	// Post new note route
 	router.post("/note", function(req, res) {
 		// Create the note in the database
