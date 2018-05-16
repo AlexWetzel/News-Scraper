@@ -59,6 +59,25 @@ $(document).on("click", "#remove", function(event) {
 	});
 });
 
+$(document).on("click", ".delete-comment", function(event) {
+	event.preventDefault();
+	//Store the data-id of the element
+	var id = $(this).data("id");
+	//Request to update the data entry
+	$.ajax("/deleteNote", {
+		type: "DELETE",
+		data: {id: id}
+	}).then(function(response) {
+		if (response) {
+			console.log(response);
+			//Reload if the article is unsaved
+			location.reload();
+		} else {
+			console.log("Nothing interesting happens...")
+		}
+	});
+});
+
 $(document).on("click", ".modal-trigger", function(event) {
 	event.preventDefault();
 
@@ -92,6 +111,8 @@ $(document).on("click", "#submit", function(event) {
 		
 	})
 });
+
+// $(document).on("click", "")
 
 $(document).on("click", ".modal-close", function(evet) {
 	$("#note-form").trigger('reset');

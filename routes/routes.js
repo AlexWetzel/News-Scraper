@@ -135,5 +135,20 @@ module.exports = function (request, cheerio) {
 		})
 	});
 
+	//Delete a note
+	router.delete("/deleteNote", function(req, res) {
+
+		var id = req.body.id;
+
+		console.log("Request to delete note with id:", id);
+
+		db.Note.deleteOne({_id: id})
+		.then(function(result) {
+			res.send("Note deleted");
+		}).catch(function(err) {
+			res.json(err);
+		})
+	});
+
 	return router;
 };

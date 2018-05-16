@@ -21,3 +21,5 @@ Articles on the home page will have a green 'save' button. When you click 'save'
 ### Adding Notes
 
 For saved articles, clicking the 'note' button opens a text form. From there, you can type a message to add to the saved article, or close the form by clicking 'cancel'.
+
+You can delete note by clicking the red 'x' icon next to it.
