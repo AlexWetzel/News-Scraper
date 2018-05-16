@@ -16,12 +16,8 @@ Sometimes the page will refresh before the database is finished updating with th
 
 ### Saving Articles
 
-Articles on the home page will have a green 'save' button. When you click 'save', the article will dissapear off the home page, but will he added to the 'my articles' page, which you can access from the navigation bar. Note that rticles on this page are shared across all users.
+Articles on the home page will have a green 'save' button. When you click 'save', the article will dissapear off the home page, but will he added to the 'my articles' page, which you can access from the navigation bar. Note that articles on this page are shared across all users.
 
-### Adding Notes (Work In Progress)
+### Adding Notes
 
-This feature is incomplete. For saved articles, clicking the 'note' button adds a note to the article, with the text "This is a note".
-
-Once finished, you'll be able to add any text to the notes section of each article, and you'll be able to delete notes.
-
-
+For saved articles, clicking the 'note' button opens a text form. From there, you can type a message to add to the saved article, or close the form by clicking 'cancel'.
